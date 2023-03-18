@@ -16,8 +16,8 @@ const marketPlaces = [
   {
     name: 'RedFin',
     url: 'https://www.redfin.com/county/494/FL/Sarasota-County/filter/sort=hi-lot-sqft,property-type=land,max-price=75k,min-lot-size=0.5-acre,viewport=35.58399:35.36087:-79.94314:-80.33899,no-outline',
-    base: '',
-    searchCommand: ''
+    base: 'https://www.redfin.com',
+    searchCommand: 'a:contains("NC")'
   }
 ]
 const articles = [];
@@ -29,24 +29,39 @@ app.get('/', (req, res) => {
 
 // land route
 app.get('/land', (req, res) => {
-  axios.get('https://www.landwatch.com/north-carolina-land-for-sale/piedmont-region/homesites/price-under-49999/acres-1-10/available')
-  .then((response) => {
-    const html = response.data;
-    //console.log(html);
-    const $ = cheerio.load(html);
 
-    //look for 'a' tags that contains keyword 'County' inside div elements with class '_61961'
-    $('div:contains("County")._61961 a', html).each(function() {
-      const title = $(this).text();
-      const url = $(this).attr('href');
-      articles.push({
-        title,
-        url: "https://www.landwatch.com" + url
+  try {
+
+    for(let i = 0; i < marketPlaces.length; i++) {
+
+      axios.get(marketPlaces[i].url)
+      .then((response) => {
+
+        const html = response.data;
+        const $ = cheerio.load(html);
+    
+        //look for 'a' tags that contains keyword 'County' inside div elements with class '_61961'
+        $(marketPlaces[i].searchCommand, html).each(function() {
+          const title = $(this).text();
+          const url = $(this).attr('href');
+          
+          articles.push({
+            title,
+            url: marketPlaces[i].base + url,
+            name: marketPlaces[i].name
+          });
+        });
+    
+        
+    
       });
-    });
-
+    }
+    
     res.json(articles);
-  }).catch((err) => console.log(err));
+
+  } catch(err) {
+    console.log(err);
+  } 
 });
 
 
