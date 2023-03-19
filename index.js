@@ -19,8 +19,9 @@ const marketPlaces = [
     base: 'https://www.redfin.com',
     searchCommand: 'a:contains("NC")'
   }
-]
-const articles = [];
+];
+
+let articles = [];
 
 // home route
 app.get('/', (req, res) => {
@@ -28,13 +29,13 @@ app.get('/', (req, res) => {
 });
 
 // land route
-app.get('/land', (req, res) => {
+app.get('/land', async (req, res) => {
 
   try {
 
     for(let i = 0; i < marketPlaces.length; i++) {
 
-      axios.get(marketPlaces[i].url)
+      await axios.get(marketPlaces[i].url)
       .then((response) => {
 
         const html = response.data;
@@ -52,19 +53,17 @@ app.get('/land', (req, res) => {
           });
         });
     
-        
-    
       });
     }
     
     res.json(articles);
 
+    articles = [];
+
   } catch(err) {
     console.log(err);
   } 
+
 });
-
-
-
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`));
