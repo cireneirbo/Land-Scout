@@ -3,4 +3,10 @@
 ## Dependencies
 * Cheerio
 * Express
-* Axios
+* Axios 
+* cookie-parser
+* debug
+* http-errors
+* jade
+* morgan
+* nodemon
