@@ -1,4 +1,4 @@
-# Land-Scout
+# [Land-Scout](https://land-scout.herokuapp.com/land)
 ## What It Does
 Land Scout searches several web marketplaces that sell land and returns a json of multiple land parcels currently for sale in the Piedmont region of North Carolina.
 
