@@ -35,6 +35,12 @@ exports.land_parcels = async function (req, res, next) {
       baseUrl: 'https://www.landwatch.com',
       searchCommand: 'div:contains("County")._61961 a'
     },
+    {
+      name: 'Redfin',
+      url: 'https://www.redfin.com/city/7161/NC/Greensboro',
+      baseUrl: 'https://www.redfin.com',
+      searchCommand: 'a:contains("NC")'
+    }
     // {
     //   name: 'RedFin',
     //   url: 'https://www.redfin.com/county/494/FL/Sarasota-County/filter/sort=hi-lot-sqft,property-type=land,max-price=75k,min-lot-size=0.5-acre,viewport=35.58399:35.36087:-79.94314:-80.33899,no-outline',
